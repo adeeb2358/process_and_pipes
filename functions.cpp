@@ -84,5 +84,35 @@ void exit_status(){
 }
 
 void simple_shell(){
+	std::string one_command;
 	
+	/*
+		main command loop for the program
+	*/
+
+	while(printf("> "), getline(std::cin,one_command)){
+		
+		if(!std::cin){
+			exit(0);
+		}
+
+		if(fork() == 0){
+
+			/*
+				this condition means this is a child
+			*/
+			execlp(one_command.c_str(),one_command.c_str(),NULL);
+			/*
+				we dont want to come here until execlp fails
+			*/
+			printf("%s: command not found\n",one_command.c_str());
+		}else{
+			/*
+				this is parent and it will loop back and prompts
+				again
+			*/
+			wait(0);
+
+		}
+	}
 }

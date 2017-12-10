@@ -8,5 +8,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string>
 
 #endif // COMMON_HEADER_H
