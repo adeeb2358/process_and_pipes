@@ -8,6 +8,7 @@ int main(){
 	//fork_loop();
 	//exec_examples();
 	//exit_status();
-	simple_shell();
+	//simple_shell();
+	pipe_function();
 	return 0;	
 }
