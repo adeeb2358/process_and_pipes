@@ -9,6 +9,7 @@ int main(){
 	//exec_examples();
 	//exit_status();
 	//simple_shell();
-	pipe_function();
+	//pipe_function();
+	pipe_shell();
 	return 0;	
 }

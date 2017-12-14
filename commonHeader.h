@@ -9,5 +9,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string>
+#include <string.h>
 
 #endif // COMMON_HEADER_H
