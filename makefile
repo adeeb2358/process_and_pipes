@@ -42,14 +42,17 @@ build_main:
 $(OBJ_FILES):
 	
 	@echo "compiling" $*.cpp $(REDIRECT_COMMAND) $(LOG_FILE)
-	@ $(CC)  $(CCFLAGS) -c  $*.cpp -o $(OBJ_DIR)/$@  $(REDIRECT_COMMAND)  $(LOG_FILE)
+	@ $(CC)  $(CCFLAGS) -c  $*.cpp -o $(OBJ_DIR)/$@   $(REDIRECT_COMMAND)  $(LOG_FILE)
 
 .PHONY:	clean
 	
 clean:
-	@ echo "cleaning files"
+	@ echo "cleaning object files"
 	@ $(RM) -rf $(OBJ_FILES_WITH_PATH)
+	@ echo "cleaning main exe file"
 	@ $(RM) -rf $(MAIN_EXE_FILE)
-	@ $(RM)  $(LOG_FILE)
+	@ echo "cleaning log file"
+	@ $(RM) -rf $(LOG_FILE)
+	@ echo "cleaning core file"
 	@ $(RM) -rf $(CORE_FILE)
 	
