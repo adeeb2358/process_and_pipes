@@ -35,18 +35,42 @@ void pipe_function(){
 }
 
 int prompt_and_parse(char** up_stream,char **down_stream){
-	char *one_line;
+	char *one_line       = NULL;
 	size_t one_line_size = 100;
 	down_stream[0]       = NULL;
+	
 	printf("> ");
 	if(getline(&one_line,&one_line_size,stdin) == -1){
 		return -1;
 	}
+	
 	int compare_result = strcmp(one_line,"END");
 	if(compare_result == 10){
 		return -1;
 	}
-	printf("%s",one_line);
+	
+	*up_stream++ = strtok(one_line," \t");
+	
+	/*one_piece = strtok(one_line," \t");
+	printf("%s\n",one_piece);*/
+	/*one_piece = strtok(one_line," \t");
+	printf("%s\n",one_piece);
+	one_area = strtok(NULL," \t");
+	one_area = strtok(NULL," \t");
+	one_area = strtok(NULL," \t");
+	one_area = strtok(NULL," \t");*/
+	
+	/**u++  = strtok(one_line,"\t");
+	while(*u = strtok(NULL,"\t")){
+		if(strcmp(*u,"|") == 0){
+			*u = NULL;
+			while(*d++ = strtok(NULL,"\t")){
+				return 1;
+			}
+		}
+		u++;
+	}*/
+	
 	return 1;
 }  
 
@@ -54,7 +78,7 @@ void pipe_shell(){
 	int pipe_descriptor[2];
 	char *up_stream[20], *down_stream[20];
 	while(prompt_and_parse(up_stream,down_stream) > 0){
-						
+							
 	}
 	return;
 }

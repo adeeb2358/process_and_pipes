@@ -1,0 +1,12 @@
+compiling pipes.cpp
+pipes.cpp: In function ‘int prompt_and_parse(char**, char**)’:
+pipes.cpp:51:2: error: ‘asas’ was not declared in this scope
+  asas
+  ^~~~
+pipes.cpp:51:2: note: suggested alternative: ‘abs’
+  asas
+  ^~~~
+  abs
+compiling main.cpp
+compiling functions.cpp
+building main
