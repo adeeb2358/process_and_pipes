@@ -49,7 +49,17 @@ int prompt_and_parse(char** up_stream,char **down_stream){
 		return -1;
 	}
 	
+	/*
+		strtok initially take first piece
+		subsequent calls passs NULL and
+		get the subsequent data
+	*/
 	*up_stream++ = strtok(one_line," \t");
+	while(*up_stream = strtok(NULL,"\t")){
+		if(strcmp(*up_stream," |") == 0){
+			*up_stream = NULL;
+		}
+	}
 	
 	/*one_piece = strtok(one_line," \t");
 	printf("%s\n",one_piece);*/
