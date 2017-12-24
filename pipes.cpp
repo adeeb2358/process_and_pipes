@@ -88,22 +88,80 @@ void sanitize_string(char* good_string,char* one_string){
 void pipe_shell(){
 	int pipe_descriptor[2];
 	char *up_stream[20], *down_stream[20];
+	char *argument[2];
+	argument[1] = NULL;
+	argument[2] = NULL;
+	
 	while(1){
 		int parse_result = prompt_and_parse(up_stream,down_stream);
+		
 		if(parse_result == -1){
 			exit(0);
 		}
+
+		char good_command[20];
+		sanitize_string(good_command,up_stream[0]);
+		up_stream[0] = good_command;
+		argument[0]  = good_command;
+		
 		if(down_stream[0] == NULL){
 			/*only one command is given to the sample terminal*/
 			if(fork() == 0){/*child process*/
-				char good_command[20];
-				sanitize_string(good_command,up_stream[0]);
-				up_stream[0] = good_command;
 				
-				execvp(up_stream[0],up_stream);
+				execvp(up_stream[0],argument);
 				printf("%s :not found\n",good_command);
 				exit(1);
 			}else{
+				wait(0);
+			}
+		}else{
+			/*
+				there are two commands pipe the result and display it
+				we need to run fork() twice to run the downstream and upstream
+				commands concurrently with a pipe between them,	
+			*/
+			pipe(pipe_descriptor);
+			if(fork() == 0){/*upstream child*/
+				/*
+					connect stdout to upstream end of pipe
+				*/
+				dup2(pipe_descriptor[1],1);
+				close(pipe_descriptor[0]);
+				/*
+					execute the upstream command
+				*/
+				execvp(up_stream[0],argument);
+				printf("%s :not found\n",up_stream[0]);
+				exit(1);
+			}
+			/*
+				downstream child
+			*/
+			if(fork() == 0){
+				/*
+					execute the downstream command
+					connect stdin to the downstream end of pipe
+				*/
+				dup2(pipe_descriptor[0],0);
+				/*close the upstream end of the pipe*/
+				close(pipe_descriptor[1]);
+				char *argument[2];
+				argument[1]  = NULL;
+				argument[2]  = NULL;
+				char good_command[20];
+				sanitize_string(good_command,down_stream[0]);
+				up_stream[0] = good_command;
+				argument[0]  = good_command;
+				execvp(down_stream[0],argument);
+				printf("%s: not found\n",down_stream[0]);
+				exit(1);
+			}else{
+				close(pipe_descriptor[0]);
+				close(pipe_descriptor[1]);
+				/*
+				wait for both children to finish
+				*/
+				wait(0);
 				wait(0);
 			}
 		}						
